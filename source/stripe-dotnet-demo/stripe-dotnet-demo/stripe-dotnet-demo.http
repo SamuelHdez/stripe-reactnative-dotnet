@@ -1,0 +1,11 @@
+@stripe_dotnet_demo_HostAddress = http://localhost:5252
+
+GET {{stripe_dotnet_demo_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{stripe_dotnet_demo_HostAddress}}/todos/1
+Accept: application/json
+
+###
