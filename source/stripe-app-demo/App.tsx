@@ -4,6 +4,7 @@ import ShopItem from './src/components/shop-item';
 import ShopFooter from './src/components/shop-footer';
 import ShopHeader from './src/components/shop-header';
 import { useEffect, useState } from 'react';
+import { ShopItemModel } from './src/models/shop-item.model';
 
 export default function App() {
 
@@ -71,12 +72,36 @@ export default function App() {
     setShopItems(items);
   }, []);
 
+  const handleAddItem = (item: ShopItemModel) => {
+    const newItems = shopItems.map((shopItem) => {
+      if (shopItem.name === item.name) {
+        shopItem.quantity = shopItem.quantity + 1;
+      }
+      return shopItem;
+    });
+
+    setShopItems(newItems);
+  }
+
+  const handleRemoveItem = (item: ShopItemModel) => {
+    const newItems = shopItems.map((shopItem) => {
+      if (shopItem.name === item.name) {
+        if (shopItem.quantity > 0) {
+          shopItem.quantity = shopItem.quantity - 1;
+        }
+      }
+      return shopItem;
+    });
+
+    setShopItems(newItems);
+  }
+
   return (
     <View style={styles.container}>
       <ShopHeader></ShopHeader>
       <ScrollView>
         {shopItems.map((item, index) => {
-          return <ShopItem key={index} shopItem={item}></ShopItem>
+          return <ShopItem key={index} shopItem={item} onAddItemPress={handleAddItem} onRemoveItemPress={handleRemoveItem}></ShopItem>
         })}
       </ScrollView>
       <ShopFooter></ShopFooter>

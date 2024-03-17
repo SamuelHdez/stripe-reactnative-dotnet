@@ -4,10 +4,12 @@ import { ShopItemModel } from '../models/shop-item.model';
 
 interface ShopItemProps {
     shopItem: ShopItemModel;
+    onAddItemPress: (item: ShopItemModel) => void;
+    onRemoveItemPress: (item: ShopItemModel) => void;
 }
 
+const ShopItem: React.FC<ShopItemProps> = ({ shopItem, onAddItemPress, onRemoveItemPress }) => {
 
-const ShopItem: React.FC<ShopItemProps> = ({ shopItem }) => {
     return (
         <View style={styles.itemContainer}>
             <View style={styles.itemTextContainer}>
@@ -16,11 +18,15 @@ const ShopItem: React.FC<ShopItemProps> = ({ shopItem }) => {
                 <Text style={styles.itemPrice}>{shopItem.price} €</Text>
             </View>
             <View style={styles.itemBuyContainer}>
-                <TouchableOpacity style={[styles.itemButton, styles.itemButtonDisabled]}>
+                <TouchableOpacity style={[styles.itemButton, shopItem.quantity == 0 ? styles.itemButtonDisabled : {}]} onPress={() => {
+                    if (shopItem.quantity > 0) {
+                        onRemoveItemPress(shopItem);
+                    }
+                }}>
                     <Text style={styles.itemButtonText}>-</Text>
                 </TouchableOpacity>
                 <Text style={styles.itemQuantity}>{shopItem.quantity}</Text>
-                <TouchableOpacity style={styles.itemButton}>
+                <TouchableOpacity style={styles.itemButton} onPress={() => onAddItemPress(shopItem)}>
                     <Text style={styles.itemButtonText}>+</Text>
                 </TouchableOpacity>
             </View>
